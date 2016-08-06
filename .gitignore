@@ -1,5 +1,2 @@
-*
-!*/*.c
-!*/*.h
-!*/Makefile
-!*.md
+*/main
+*/main.o
