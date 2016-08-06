@@ -1,2 +1,5 @@
-*/main
-*/main.o
+*
+!*.c
+!*.h
+!README.md
+!.gitignore
