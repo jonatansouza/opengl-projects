@@ -19,10 +19,8 @@ void customSquare(float size);
 
 
 //global variables
-int raioF = 0;
-int raioC = 0;
-bool abrirF = false;
-bool abrirC = false;
+float moveWindow = 360;
+bool openWindow = false;
 
 bool orto = true;
 bool eixos = true;
@@ -67,28 +65,15 @@ glEnable(GL_NORMALIZE);
 
 glShadeModel(GL_SMOOTH);
 glEnable( GL_DEPTH_TEST );
-
-
 }
 
 void open(int i){
-    if(abrirF){
-        if(raioF <= 45){
-            raioF ++;
-        }
+    if(openWindow){
+      if(moveWindow >= 200)
+        moveWindow -= 2;
     }else{
-        if(raioF > 0){
-            raioF --;
-        }
-    }
-    if(abrirC){
-        if(raioC <= 45){
-            raioC ++;
-        }
-    }else{
-        if(raioC > 0){
-            raioC --;
-        }
+      if(moveWindow <= 358)
+      moveWindow += 2;
     }
     glutPostRedisplay();
     glutTimerFunc(100,open,1);
@@ -196,180 +181,6 @@ void drawHalfSphere(int scaley, int scalex, GLfloat r) {
 
 }
 
-void madeiraBanco(){
-    glPushMatrix();
-        glScalef(1,0.03,0.1);
-        customSquare(20);
-    glPopMatrix();
-}
-
-void baseBanco(){
-    glPushMatrix();
-        glTranslatef(0,0,-3);
-        madeiraBanco();
-    glPopMatrix();
-    glPushMatrix();
-        madeiraBanco();
-    glPopMatrix();
-
-}
-
-void pesBancoTraseiro(){
-    glPushMatrix();
-        glTranslatef(-7,0,-4);
-        glScalef(0.1,1,0.05);
-        customSquare(11);
-    glPopMatrix();
-}
-
-void pesBancoFront(){
-    glPushMatrix();
-        glTranslatef(-7,-3,0);
-        glScalef(0.1,0.5,0.05);
-        customSquare(11);
-    glPopMatrix();
-
-}
-
-void baseAssentoBanco(){
-    glPushMatrix();
-        glTranslatef(-7,0,-2);
-        glScalef(0.1,0.05,0.2);
-        customSquare(11);
-    glPopMatrix();
-}
-
-
-/**
-* Desenha o banco
-*/
-void banco(){
-    glColor3f(0.1,0.3,0.5);
-    glPushMatrix();
-        baseBanco();
-    glPopMatrix();
-    glPushMatrix();
-        glTranslatef(0,2,-4);
-        glRotatef(90,1,0,0);
-        baseBanco();
-    glPopMatrix();
-    //pes
-    glPushMatrix();
-       pesBancoTraseiro();
-    glPopMatrix();
-    glPushMatrix();
-        glScalef(-1,1,1);
-        pesBancoTraseiro();
-    glPopMatrix();
-
-    glPushMatrix();
-        pesBancoFront();
-    glPopMatrix();
-    glPushMatrix();
-        glScalef(-1,1,1);
-        pesBancoFront();
-    glPopMatrix();
-    glPushMatrix();
-        baseAssentoBanco();
-    glPopMatrix();
-    glPushMatrix();
-        glScalef(-1,1,1);
-        baseAssentoBanco();
-    glPopMatrix();
-
-}
-
-
-void tampoMesa(){
-    glPushMatrix();
-        glScalef(1,0.05,1);
-        customSquare(15);
-    glPopMatrix();
-}
-
-void baseMesa(){
-    glPushMatrix();
-        glTranslatef(0,-7.5,0);
-            glPushMatrix();
-                glScalef(0.2,1,0.2);
-                customSquare(15);
-            glPopMatrix();
-            glPushMatrix();
-                glTranslatef(0,-8,0);
-                glScalef(0.7,0.05,0.7);
-                customSquare(15);
-            glPopMatrix();
-    glPopMatrix();
-}
-
-void mesa(){
-    glColor3f(0.1,0.3,0.5);
-    glPushMatrix();
-        tampoMesa();
-    glPopMatrix();
-    glPushMatrix();
-        baseMesa();
-    glPopMatrix();
-}
-
-void paredes(){
-    glColor3f(1,0.8,0.7);
-    glPushMatrix();
-        glTranslatef(-38.5,18,-27);
-        glScalef(0.8,1,0.05);
-        customSquare(25);
-    glPopMatrix();
-    glPushMatrix();
-        glScalef(1,1,-1);
-        glTranslatef(-38.5,18,-27);
-        glScalef(0.8,1,0.05);
-        customSquare(25);
-    glPopMatrix();
-
-    glPushMatrix();
-        glTranslatef(-48.5,18,0);
-        glScalef(0.05,1,2.2);
-        customSquare(25);
-    glPopMatrix();
-    glPushMatrix();
-
-        glTranslatef(-36.5,30,0);
-        glRotatef(90,0,0,1);
-        glScalef(0.05,1,2.2);
-        customSquare(25);
-    glPopMatrix();
-
-}
-
-void planta(){
-    glPushMatrix();
-        glTranslatef(0,3,0);
-        glRotatef(270,1,0,0);
-        glPushMatrix();
-            glColor3f(0.5,0.3,0.1);
-            glTranslatef(0,0,-4);
-            customSquare(5);
-        glPopMatrix();
-        glPushMatrix();
-            glColor3f(0,1,0);
-            desenhaCone(2, 5);
-        glPopMatrix();
-        glPushMatrix();
-            glTranslatef(0,0,3.5);
-            desenhaCone(2, 5);
-        glPopMatrix();
-        glPushMatrix();
-            glTranslatef(0,0,7);
-            desenhaCone(2, 5);
-        glPopMatrix();
-        glPushMatrix();
-            glTranslatef(0,0,-2);
-            glColor3f(0.8,0.4,0);
-            cilindro(0.9,4);
-        glPopMatrix();
-    glPopMatrix();
-
-}
 void bed(){
   //colchao
   glPushMatrix();
@@ -519,11 +330,134 @@ void wardrobe(){
   glPopMatrix();
 }
 
+void floor(){
+  glPushMatrix();
+    glScalef(1,0.05,1);
+    customSquare(70);
+  glPopMatrix();
+}
+
+void wall(){
+  glPushMatrix();
+    glScalef(0.01,0.5,1);
+    customSquare(70);
+  glPopMatrix();
+}
+
+void landscape(){
+  glPushMatrix();
+    glColor3f(0.2,0.5,0.85);
+    glScalef(1,0.7,0.05);
+    customSquare(20);
+  glPopMatrix();
+}
+
+void windowDoors(){
+  glPushMatrix();
+    glTranslatef(-10,0,0);
+    glPushMatrix();
+      glRotatef(moveWindow, 0,1,0);
+      glTranslatef(5,0,0);
+      glScalef(0.5,0.7,0.08);
+      customSquare(20);
+    glPopMatrix();
+  glPopMatrix();
+
+  glPushMatrix();
+    glTranslatef(10,0,0);
+    glPushMatrix();
+      glRotatef(-moveWindow, 0,1,0);
+      glTranslatef(-5,0,0);
+      glScalef(0.5,0.7,0.08);
+      customSquare(20);
+    glPopMatrix();
+  glPopMatrix();
+
+
+}
+void windowFrame(){
+  glPushMatrix();
+    glTranslatef(0,7,0);
+    glScalef(1,0.05,0.08);
+    customSquare(20);
+  glPopMatrix();
+  glPushMatrix();
+    glTranslatef(-10,0,0);
+    glScalef(0.05,0.75,0.08);
+    customSquare(20);
+  glPopMatrix();
+}
+
+void window(){
+  //vista azul
+  glPushMatrix();
+    landscape();
+  glPopMatrix();
+  //trave superior
+  glColor3f(0.5,0.2,0.1);
+  glPushMatrix();
+    windowFrame();
+  glPopMatrix();
+
+  //trave inferior
+  glPushMatrix();
+    glScalef(-1,-1,1);
+    windowFrame();
+  glPopMatrix();
+
+  //portas da janela
+  glPushMatrix();
+    windowDoors();
+  glPopMatrix();
+}
+
+void backWall(){
+  glPushMatrix();
+    glScalef(1,0.5,0.01);
+    customSquare(70);
+  glPopMatrix();
+  //janela
+  glPushMatrix();
+    window();
+  glPopMatrix();
+
+  glColor3f(0.9,0.9,0.5);
+
+}
+
+
+void roomBase(){
+  glColor3f(0.9,0.9,0.5);
+  floor();
+  //parede direita
+  glPushMatrix();
+    glTranslatef(34.7,16,0);
+    wall();
+  glPopMatrix();
+  //parede esquerda
+  glPushMatrix();
+    glScalef(-1,1,1);
+    glTranslatef(34.7,16,0);
+    wall();
+  glPopMatrix();
+  //parede fundo
+  glPushMatrix();
+    glTranslatef(0,16,-34.7);
+    backWall();
+  glPopMatrix();
+  glPushMatrix();
+    glTranslatef(0,35,0);
+    floor();
+  glPopMatrix();
+
+}
+
 void display(){
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glPushMatrix();
-      //bed();
-      //wardrobe();
+      roomBase();
+      /*bed();
+      wardrobe();*/
 		glPopMatrix();
 	glutSwapBuffers();
 }
@@ -600,11 +534,15 @@ void keyboard( unsigned char tecla, int x, int y){
 			projecao();
 			break;
 
-
 		case 'w':
 		case 'W':
 			wire = !wire;
 			break;
+
+    case 'j':
+    case 'J':
+      openWindow = !openWindow;
+      break;
 
 	}
 	glutPostRedisplay();
