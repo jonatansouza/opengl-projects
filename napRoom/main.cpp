@@ -45,7 +45,7 @@ void inicializa(){
 GLfloat ambient[] = {0.5, 0.5, 0.5 ,1.0};
 GLfloat difusa[] = {0.5,0.5,0.5,1};
 GLfloat especular[] = {1,1,1,1};
-GLfloat posicao[] = {20,0,0,0};
+GLfloat posicao[] = {0,20,0,0};
 
 glClearColor( 0.0f, 0.0f, 0.0f, 1.0f );
 
@@ -111,81 +111,12 @@ void customSquare(float size){
 		glutSolidCube(size);
 	}
 }
-void desenhaCone(float size, float hgh){
-    if(wire){
-        glutWireCone(size, hgh,5, 5);
-    }else{
-        glutSolidCone(size, hgh,10, 10);
-    }
-}
-void desenhaEsfera(float r, float s, float st){
-
-	if(wire){
-		glutWireSphere(r, s, st);
-	}else{
-		glutSolidSphere(r, s, st);
-	}
-
-}
-
-void cilindro(float raio, float heigth_c){
-      float x, y;
-      int i = 0;
-      glLineWidth(1);
-      glBegin(GL_POLYGON);
-        for(i=0;i<360;i++){
-            x = cos((i*M_PI)/180) * raio;
-            y = sin((i*M_PI)/180) * raio;
-             glVertex3f(x,y,0);
-        }
-      glEnd();
-      glBegin(GL_POLYGON);
-        for(i=0;i<360;i++){
-            x = cos((i*M_PI)/180) * raio;
-            y = sin((i*M_PI)/180) * raio;
-            glVertex3f(x,y,heigth_c);
-        }
-      glEnd();
-      glBegin(GL_QUAD_STRIP);
-        for(i=0;i<360;i++){
-            x = cos((i*M_PI)/180) * raio;
-            y = sin((i*M_PI)/180) * raio;
-            glVertex3f(x,y,0);
-            glVertex3f(x,y,heigth_c);
-        }
-      glEnd();
-}
-
-void drawHalfSphere(int scaley, int scalex, GLfloat r) {
-   int i, j;
-   GLfloat v[scalex*scaley][3];
-
-   for (i=0; i<scalex; ++i) {
-     for (j=0; j<scaley; ++j) {
-       v[i*scaley+j][0]=r*cos(j*2*M_PI/scaley)*cos(i*M_PI/(2*scalex));
-       v[i*scaley+j][1]=r*sin(i*M_PI/(2*scalex));
-       v[i*scaley+j][2]=r*sin(j*2*M_PI/scaley)*cos(i*M_PI/(2*scalex));
-     }
-   }
-
-   glBegin(GL_QUADS);
-     for (i=0; i<scalex-1; ++i) {
-       for (j=0; j<scaley; ++j) {
-         glVertex3fv(v[i*scaley+j]);
-         glVertex3fv(v[i*scaley+(j+1)%scaley]);
-         glVertex3fv(v[(i+1)*scaley+(j+1)%scaley]);
-         glVertex3fv(v[(i+1)*scaley+j]);
-       }
-     }
-   glEnd();
-
-}
 
 void bed(){
   //colchao
   glPushMatrix();
   glTranslatef(0,5,0);
-  glColor3f(0.8,0.8,1)  ;
+  glColor3f(0.95,0.5,0.4)  ;
   glScalef(0.85,0.05,0.45);
   customSquare(50);
   glPopMatrix();
@@ -253,7 +184,7 @@ void wardrobeDrawer(){
 void wardrobePort(){
   //porta
   glPushMatrix();
-    glColor3f(0.8,0.8,1);
+    glColor3f(0.95,0.95,0.95);
     glTranslatef(-8.5,5,7.5);
     glScalef(0.33,0.75,0.03);
     customSquare(50);
@@ -288,22 +219,22 @@ void wardrobe(){
 
   //gavetas
   glPushMatrix();
-    glColor3f(0.8,0.8,1);
+  glColor3f(0.6,0.6,0.6);
     wardrobeDrawer();
   glPopMatrix();
   glPushMatrix();
-    glColor3f(0.8,0.8,1)  ;
+    glColor3f(0.6,0.6,0.6);
     glTranslatef(0,-4.5,0);
     wardrobeDrawer();
   glPopMatrix();
   glPushMatrix();
-    glColor3f(0.8,0.8,1)  ;
+    glColor3f(0.6,0.6,0.6);
     glScalef(-1,1,1);
     glPushMatrix();
       wardrobeDrawer();
     glPopMatrix();
     glPushMatrix();
-      glColor3f(0.8,0.8,1)  ;
+      glColor3f(0.6,0.6,0.6);
       glTranslatef(0,-4.5,0);
       wardrobeDrawer();
     glPopMatrix();
@@ -347,7 +278,7 @@ void wall(){
 void landscape(){
   glPushMatrix();
     glColor3f(0.2,0.5,0.85);
-    glScalef(1,0.7,0.05);
+    glScalef(1,0.7,0.07);
     customSquare(20);
   glPopMatrix();
 }
@@ -418,46 +349,68 @@ void backWall(){
   glPopMatrix();
   //janela
   glPushMatrix();
-    window();
+      glScalef(0.7,0.7,0.7);
+      window();
   glPopMatrix();
 
-  glColor3f(0.9,0.9,0.5);
 
 }
 
 
 void roomBase(){
-  glColor3f(0.9,0.9,0.5);
+  glColor3f(0.9,0.8,0.5);
   floor();
   //parede direita
   glPushMatrix();
+    glColor3f(0.5,0.8,0.95);
     glTranslatef(34.7,16,0);
     wall();
   glPopMatrix();
   //parede esquerda
   glPushMatrix();
+    glColor3f(0.5,0.8,0.90);
     glScalef(-1,1,1);
     glTranslatef(34.7,16,0);
     wall();
   glPopMatrix();
   //parede fundo
   glPushMatrix();
+    glColor3f(0.5,0.8,0.85);
     glTranslatef(0,16,-34.7);
     backWall();
   glPopMatrix();
   glPushMatrix();
+    glColor3f(0.5,0.8,0.80);
     glTranslatef(0,35,0);
     floor();
   glPopMatrix();
 
 }
 
+void room(){
+  glPushMatrix();
+    roomBase();
+  glPopMatrix();
+
+  glPushMatrix();
+    glTranslatef(20,6,0);
+    glScalef(0.5,0.5,0.5);
+    bed();
+  glPopMatrix();
+
+  glPushMatrix();
+    glTranslatef(-30,15,-10);
+    glRotatef(90,0,1,0);
+    glScalef(0.5,0.5,0.5);
+    wardrobe();
+  glPopMatrix();
+}
+
 void display(){
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glPushMatrix();
-      roomBase();
-      /*bed();
-      wardrobe();*/
+      glTranslatef(0,-10,0);
+      room();
 		glPopMatrix();
 	glutSwapBuffers();
 }
